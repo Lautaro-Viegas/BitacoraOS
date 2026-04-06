@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BitacoraOS</title>
+<title>---BitacoraOS---</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzBEMEQwRCIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMyIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iOTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRjVBNjIzIj5CPC90ZXh0Pgo8L3N2Zz4=">
   <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzBEMEQwRCIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMyIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iOTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRjVBNjIzIj5CPC90ZXh0Pgo8L3N2Zz4=">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2332,31 +2332,45 @@
     <div class="login-logo">Bitacora<span style="color:#F5A623">OS</span></div>
     <div class="login-subtitle">// tu espacio personal</div>
 
-    <!-- Tab selector -->
-    <div style="display:flex;gap:0;margin-bottom:1.25rem;background:var(--bg3);border-radius:8px;padding:3px">
-      <button id="auth-tab-login" onclick="showPanel('login')" style="flex:1;padding:0.4rem;border:none;border-radius:6px;background:var(--accent1);color:#0D0D0D;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.15s">Ingresar</button>
-      <button id="auth-tab-signup" onclick="showPanel('setup')" style="flex:1;padding:0.4rem;border:none;border-radius:6px;background:transparent;color:var(--text2);font-family:var(--font-mono);font-size:0.78rem;cursor:pointer;transition:all 0.15s">Crear cuenta</button>
+    <!-- Panel selector: shown when no choice made yet -->
+    <div id="landing-choice" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.5rem">
+        <button class="landing-option-btn" onclick="showPanel('login')">
+          <div style="font-size:1.5rem;margin-bottom:0.4rem">🔑</div>
+          <div style="font-weight:700;font-size:0.9rem">Ingresar</div>
+          <div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--text2);margin-top:0.2rem">Ya tengo mi espacio</div>
+        </button>
+        <button class="landing-option-btn" onclick="showPanel('setup')">
+          <div style="font-size:1.5rem;margin-bottom:0.4rem">✨</div>
+          <div style="font-weight:700;font-size:0.9rem">Crear espacio</div>
+          <div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--text2);margin-top:0.2rem">Primera vez</div>
+        </button>
+      </div>
     </div>
 
     <!-- Login panel -->
-    <div id="landing-login">
-      <label for="login-email">Email</label>
-      <input type="email" id="login-email" placeholder="tu@email.com" autocomplete="email">
-      <label for="pwd-input" style="margin-top:0.5rem">Contraseña</label>
+    <div id="landing-login" style="display:none">
+      <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text2);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem">
+        <button onclick="showPanel('choice')" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:0.8rem;padding:0">←</button>
+        Ingresar a tu espacio
+      </div>
+      <label for="pwd-input">Contraseña</label>
       <input type="password" id="pwd-input" placeholder="••••••••" autocomplete="current-password">
-      <button class="btn-primary" id="btn-login" onclick="tryLogin()">Entrar</button>
-      <div class="login-error" id="login-error"></div>
+      <button class="btn-primary" onclick="tryLogin()">Entrar</button>
+      <div class="login-error" id="login-error">Contraseña incorrecta</div>
     </div>
 
-    <!-- Signup panel -->
+    <!-- Setup panel -->
     <div id="landing-setup" style="display:none">
-      <label for="signup-email">Email</label>
-      <input type="email" id="signup-email" placeholder="tu@email.com" autocomplete="email">
-      <label for="new-pwd" style="margin-top:0.5rem">Contraseña</label>
-      <input type="password" id="new-pwd" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
-      <label for="new-pwd2" style="margin-top:0.5rem">Repetir contraseña</label>
+      <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text2);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem">
+        <button onclick="showPanel('choice')" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:0.8rem;padding:0">←</button>
+        Crear tu espacio
+      </div>
+      <label for="new-pwd">Elegí una contraseña</label>
+      <input type="password" id="new-pwd" placeholder="Mínimo 4 caracteres" autocomplete="new-password">
+      <label for="new-pwd2" style="margin-top:0.25rem">Repetir contraseña</label>
       <input type="password" id="new-pwd2" placeholder="Repetila" autocomplete="new-password">
-      <button class="btn-primary" style="margin-top:0.5rem" id="btn-signup" onclick="setupPassword()">Crear mi espacio</button>
+      <button class="btn-primary" style="margin-top:0.5rem" onclick="setupPassword()">Crear mi espacio</button>
       <div class="login-error" id="setup-error"></div>
     </div>
   </div>
@@ -3276,122 +3290,120 @@ function localDateStr(d) {
 }
 
 // ════════════════════════════════════
-// AUTH — Supabase
+// AUTH
 // ════════════════════════════════════
-let currentUserId = null;
-
 function showPanel(panel) {
-  var loginPanel = document.getElementById('landing-login');
-  var setupPanel = document.getElementById('landing-setup');
-  var tabLogin   = document.getElementById('auth-tab-login');
-  var tabSignup  = document.getElementById('auth-tab-signup');
-  if (panel === 'login') {
-    loginPanel.style.display = 'block';
-    setupPanel.style.display = 'none';
-    tabLogin.style.background = 'var(--accent1)'; tabLogin.style.color = '#0D0D0D'; tabLogin.style.fontWeight = '700';
-    tabSignup.style.background = 'transparent'; tabSignup.style.color = 'var(--text2)'; tabSignup.style.fontWeight = '400';
-    setTimeout(function(){ var el = document.getElementById('login-email'); if(el) el.focus(); }, 100);
-  } else {
-    loginPanel.style.display = 'none';
-    setupPanel.style.display = 'block';
-    tabLogin.style.background = 'transparent'; tabLogin.style.color = 'var(--text2)'; tabLogin.style.fontWeight = '400';
-    tabSignup.style.background = 'var(--accent1)'; tabSignup.style.color = '#0D0D0D'; tabSignup.style.fontWeight = '700';
-    setTimeout(function(){ var el = document.getElementById('signup-email'); if(el) el.focus(); }, 100);
-  }
+  document.getElementById('landing-choice').style.display = panel === 'choice' ? 'block' : 'none';
+  document.getElementById('landing-login').style.display  = panel === 'login'  ? 'block' : 'none';
+  document.getElementById('landing-setup').style.display  = panel === 'setup'  ? 'block' : 'none';
+  if (panel === 'login') setTimeout(function(){ document.getElementById('pwd-input').focus(); }, 100);
+  if (panel === 'setup') setTimeout(function(){ document.getElementById('new-pwd').focus(); }, 100);
 }
 
 async function init() {
+  // Set today's date on header
   const now = new Date();
   document.getElementById('header-date').textContent =
     now.toLocaleDateString('es-AR', {weekday:'short', day:'numeric', month:'short'});
 
   document.getElementById('login-screen').style.display = 'flex';
-  showPanel('login');
 
-  // Check if already logged in
-  try {
-    const sb = getSB();
-    const { data: { session } } = await sb.auth.getSession();
-    if (session && session.user) {
-      currentUserId = session.user.id;
-      showApp(true);
-      return;
-    }
-  } catch(e) {}
-
-  // Enter key on password field
-  document.getElementById('pwd-input').addEventListener('keydown', function(e){
-    if (e.key === 'Enter') tryLogin();
-  });
-}
-
-function setAuthLoading(btnId, loading, text) {
-  var btn = document.getElementById(btnId);
-  if (!btn) return;
-  btn.disabled = loading;
-  btn.textContent = loading ? '...' : text;
-}
-
-async function tryLogin() {
-  var email = (document.getElementById('login-email').value || '').trim();
-  var pwd   = document.getElementById('pwd-input').value;
-  var err   = document.getElementById('login-error');
-  err.style.display = 'none';
-  if (!email || !pwd) { err.textContent = 'Completá email y contraseña'; err.style.display = 'block'; return; }
-  setAuthLoading('btn-login', true, 'Entrando...');
-  try {
-    var sb = getSB();
-    var { data, error } = await sb.auth.signInWithPassword({ email, password: pwd });
-    if (error) throw error;
-    currentUserId = data.user.id;
-    setAuthLoading('btn-login', false, 'Entrar');
-    showApp(false);
-  } catch(e) {
-    setAuthLoading('btn-login', false, 'Entrar');
-    err.textContent = e.message === 'Invalid login credentials' ? 'Email o contraseña incorrectos' : (e.message || 'Error al ingresar');
-    err.style.display = 'block';
+  const storedHash = localStorage.getItem('dash_pwd_hash');
+  if (storedHash) {
+    // Already has an account — go straight to login panel
+    showPanel('login');
+    document.getElementById('pwd-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') tryLogin();
+    });
+  } else {
+    // No account yet — show the choice
+    showPanel('choice');
   }
 }
 
 async function setupPassword() {
-  var email = (document.getElementById('signup-email').value || '').trim();
-  var p1    = document.getElementById('new-pwd').value;
-  var p2    = document.getElementById('new-pwd2').value;
-  var err   = document.getElementById('setup-error');
-  err.style.display = 'none';
-  if (!email) { err.textContent = 'Ingresá tu email'; err.style.display = 'block'; return; }
-  if (p1.length < 6) { err.textContent = 'Mínimo 6 caracteres'; err.style.display = 'block'; return; }
-  if (p1 !== p2) { err.textContent = 'Las contraseñas no coinciden'; err.style.display = 'block'; return; }
-  setAuthLoading('btn-signup', true, 'Creando...');
-  try {
-    var sb = getSB();
-    var { data, error } = await sb.auth.signUp({ email, password: p1 });
-    if (error) throw error;
-    if (data.user && !data.session) {
-      // Email confirmation required
-      err.style.color = 'var(--accent2)';
-      err.textContent = '✓ Cuenta creada. Revisá tu email para confirmar.';
-      err.style.display = 'block';
-      setAuthLoading('btn-signup', false, 'Crear mi espacio');
-      return;
-    }
-    currentUserId = data.user.id;
-    setAuthLoading('btn-signup', false, 'Crear mi espacio');
-    showApp(false);
-  } catch(e) {
-    setAuthLoading('btn-signup', false, 'Crear mi espacio');
-    err.style.color = '';
-    err.textContent = e.message || 'Error al crear cuenta';
+  const p1 = document.getElementById('new-pwd').value;
+  const p2 = document.getElementById('new-pwd2').value;
+  const err = document.getElementById('setup-error');
+  if (p1.length < 4) { err.textContent = 'Mínimo 4 caracteres'; err.style.display='block'; return; }
+  if (p1 !== p2) { err.textContent = 'Las contraseñas no coinciden'; err.style.display='block'; return; }
+  const hash = await hashPassword(p1);
+  const stored = localStorage.getItem('dash_pwd_hash');
+  if (stored && stored === hash) {
+    err.textContent = 'Ya existe un espacio con esa contraseña. Elegí otra o ingresá desde "Ingresar".';
     err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  localStorage.setItem('dash_pwd_hash', hash);
+  document.getElementById('new-pwd').value = '';
+  document.getElementById('new-pwd2').value = '';
+  showApp();
+}
+
+async function tryLogin() {
+  const pwd = document.getElementById('pwd-input').value;
+  const hash = await hashPassword(pwd);
+  const stored = localStorage.getItem('dash_pwd_hash');
+  if (hash === stored) {
+    showApp();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('pwd-input').focus();
   }
 }
+
+function showApp(skipCloudCheck) {
+  if (!skipCloudCheck) {
+    // Always show cloud sync prompt before entering — prevents data loss
+    var raw = localStorage.getItem('dash_data');
+    var hasLocalData = false;
+    if (raw) {
+      try {
+        var parsed = JSON.parse(raw);
+        hasLocalData = (parsed.habits && parsed.habits.length > 0) ||
+                       (parsed.routines && parsed.routines.length > 0) ||
+                       (parsed.books && parsed.books.length > 0) ||
+                       (parsed.events && parsed.events.length > 0) ||
+                       (parsed.workoutLogs && parsed.workoutLogs.length > 0);
+      } catch(e) {}
+    }
+    // Update modal text based on whether local data exists
+    var msgEl = document.getElementById('cloud-load-msg');
+    var skipBtn = document.getElementById('cloud-skip-btn');
+    if (msgEl) {
+      if (hasLocalData) {
+        msgEl.innerHTML = '¿Querés cargar tus datos desde la nube antes de entrar?<br><span style="color:var(--accent3)">Esto reemplazará los datos locales de este dispositivo.</span>';
+        skipBtn.textContent = 'Continuar con datos locales';
+      } else {
+        msgEl.innerHTML = 'Este dispositivo no tiene datos locales.<br>Si ya usás BitacoraOS en otro dispositivo,<br>cargá tus datos desde la nube ahora.';
+        skipBtn.textContent = 'Entrar sin datos';
+      }
+    }
+    var statusEl = document.getElementById('cloud-load-status');
+    if (statusEl) statusEl.textContent = '';
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('cloud-load-modal').classList.add('open');
+    return;
+  }
+
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('cloud-load-modal').classList.remove('open');
+  document.getElementById('app').style.display = 'flex';
+  load();
+  renderAll();
+  setTimeout(checkAllAchievementsOnLoad, 600);
+  setTimeout(initCloudSync, 800);
+  setTimeout(checkReminders, 1200);
+}
+
 async function cloudLoadAndEnter() {
   var statusEl = document.getElementById('cloud-load-status');
   statusEl.textContent = 'Conectando con la nube...';
   try {
     var sb = getSB();
-    var rowId = currentUserId || 'main';
-    var result = await sb.from('user_data').select('data, updated_at').eq('id', rowId).maybeSingle();
+    var result = await sb.from('user_data').select('data, updated_at').eq('id','main').maybeSingle();
     if (result.error) throw result.error;
     if (result.data && result.data.data) {
       // Check it actually has content
@@ -3434,24 +3446,13 @@ function logout() {
 async function changePassword() {
   const p1 = document.getElementById('new-pwd-settings').value;
   const p2 = document.getElementById('new-pwd-settings2').value;
-  const msg = document.getElementById('change-pwd-msg');
-  msg.style.display = 'none';
-  if (p1.length < 6) { msg.textContent = 'Mínimo 6 caracteres'; msg.style.color='var(--accent3)'; msg.style.display='block'; return; }
-  if (p1 !== p2) { msg.textContent = 'Las contraseñas no coinciden'; msg.style.color='var(--accent3)'; msg.style.display='block'; return; }
-  try {
-    var sb = getSB();
-    var { error } = await sb.auth.updateUser({ password: p1 });
-    if (error) throw error;
-    msg.textContent = '✓ Contraseña actualizada';
-    msg.style.color = 'var(--accent2)';
-    msg.style.display = 'block';
-    document.getElementById('new-pwd-settings').value = '';
-    document.getElementById('new-pwd-settings2').value = '';
-  } catch(e) {
-    msg.textContent = e.message || 'Error al cambiar contraseña';
-    msg.style.color = 'var(--accent3)';
-    msg.style.display = 'block';
-  }
+  const msg = document.getElementById('pwd-settings-msg');
+  if (p1.length < 4) { msg.style.color='var(--accent3)'; msg.textContent='Mínimo 4 caracteres'; return; }
+  if (p1 !== p2) { msg.style.color='var(--accent3)'; msg.textContent='Las contraseñas no coinciden'; return; }
+  const hash = await hashPassword(p1);
+  localStorage.setItem('dash_pwd_hash', hash);
+  msg.style.color = 'var(--accent1)';
+  msg.textContent = '✓ Contraseña actualizada';
 }
 
 // ════════════════════════════════════
@@ -7615,16 +7616,16 @@ async function cloudPush() {
   try {
     const sb = getSB();
     // Try update first, then insert if not exists
-    const { data: existing } = await sb.from('user_data').select('id').eq('id', currentUserId||'main').maybeSingle();
+    const { data: existing } = await sb.from('user_data').select('id').eq('id','main').maybeSingle();
     let error;
     if (existing) {
       ({ error } = await sb.from('user_data').update({
         data: DATA,
         updated_at: new Date().toISOString()
-      }).eq('id', currentUserId||'main'));
+      }).eq('id','main'));
     } else {
       ({ error } = await sb.from('user_data').insert({
-        id: currentUserId||'main',
+        id: 'main',
         data: DATA,
         updated_at: new Date().toISOString()
       }));
@@ -7653,7 +7654,7 @@ async function cloudPull() {
   setSyncDot('pending');
   try {
     const sb = getSB();
-    const { data, error } = await sb.from('user_data').select('data, updated_at').eq('id', currentUserId||'main').maybeSingle();
+    const { data, error } = await sb.from('user_data').select('data, updated_at').eq('id','main').maybeSingle();
     if (error) {
       console.error('Supabase pull error detail:', JSON.stringify(error));
       throw new Error(error.message || JSON.stringify(error));
@@ -7693,7 +7694,7 @@ function startRealtime() {
       event: 'UPDATE',
       schema: 'public',
       table: 'user_data',
-      filter: 'id=eq.' + (currentUserId||'main')
+      filter: 'id=eq.main'
     }, function(payload) {
       if (isRemoteUpdate) return; // our own push, ignore
       // Another device updated — pull the new data
